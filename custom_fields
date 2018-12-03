@@ -1,0 +1,114 @@
+<?php
+/*
+Plugin Name: PMPro Customizations
+Plugin URI: https://www.paidmembershipspro.com/wp/pmpro-customizations/
+Description: Customizations for my Paid Memberships Pro Setup
+Version: .1
+Author: Paid Memberships Pro
+Author URI: https://www.paidmembershipspro.com
+*/
+ 
+//Now start placing your customization code below this line
+
+  function my_pmprorh_init()
+{
+	//don't break if Register Helper is not loaded
+	if(!function_exists( 'pmprorh_add_registration_field' )) {
+		return false;
+	}	
+	
+	//define the fields
+	$fields = array();
+	$fields[] = new PMProRH_Field(
+		'm_number',						// input name, will also be used as meta key
+		'text',							// type of field
+		array(
+			'label'		=> 'Membership Number (Leave blank if new member)',			// custom field label
+			'size'		=> 40,				// input size
+			'profile'	=> true,			// show in user profile
+			'required'	=> false,			// make this field required
+			'memberslistcsv' => true,
+                    )
+        );
+	$fields[] = new PMProRH_Field(
+		'date_of_birth',						// input name, will also be used as meta key
+		'text',							// type of field
+		array(
+			'label'		=> 'Date of Birth',			// custom field label
+			'size'		=> 40,				// input size
+			'profile'	=> true,			// show in user profile
+			'required'	=> true,			// make this field required
+			'memberslistcsv' => true,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'occupation',						// input name, will also be used as meta key
+		'text',							// type of field
+		array(
+			'label'		=> 'Occupation',			// custom field label
+			'size'		=> 40,				// input size
+			'profile'	=> true,			// show in user profile
+			'required'	=> true,			// make this field required
+			'memberslistcsv' => true,
+		)
+	);
+	$fields[] = new PMProRH_Field(
+		'skills',						// input name, will also be used as meta key
+		'text',							// type of field
+		array(
+			'label'		=> 'Useful Skills',			// custom field label
+			'size'		=> 40,				// input size
+			'profile'	=> true,			// show in user profile
+			'required'	=> true,			// make this field required
+			'memberslistcsv' => true,
+		)
+	);
+        $fields[] = new PMProRH_Field(
+		'volunteer',						// input name, will also be used as meta key
+		'checkbox_grouped',							// type of field
+		array(
+			'label'		=> 'Would you like to volunteer at the club?',			// custom field label
+			'size'		=> 40,				// input size
+			'profile'	=> true,			// show in user profile
+			'required'	=> false,			// make this field required
+			'memberslistcsv' => true,
+			'options' => array(
+				'yes' => 'Yes',
+                            )
+                 )
+        );
+	$fields[] = new PMProRH_Field(
+		'music_taste',						// input name, will also be used as meta key
+		'checkbox_grouped',							// type of field
+		array(
+			'label'		=> 'Musical Taste',			// custom field label
+			'size'		=> 40,				// input size
+			'profile'	=> true,			// show in user profile
+			'required'	=> true,			// make this field required
+			'memberslistcsv' => true,
+			'options' => array(
+				'all' => 'All',
+				'country' => 'Country',
+				'classical' => 'Classical',
+				'djs' => 'DJs',
+				'electro' => 'Electro',
+				'folk' => 'Folk',
+				'hip_hop' => 'Hip Hop',
+				'indie' => 'Indie',
+				'jazz' => 'Jazz',
+				'rock' => 'Rock',
+				'rhythm' => 'Rhythm',
+				'blues' => 'Blues',
+				'world' => 'World'
+			)
+		)
+	);
+	
+	//add the fields into a new checkout_boxes are of the checkout page
+	foreach ($fields as $field) {
+        pmprorh_add_registration_field(
+                'after_billing_fields', // location on checkout page
+                $field      // PMProRH_Field object
+        );
+    }
+    
